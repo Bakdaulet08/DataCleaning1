@@ -2,10 +2,10 @@ import requests
 import pandas as pd
 import time
 
-APP_ID = 730  # Counter-Strike 2 (ID в Steam)
+APP_ID = 730
 REVIEW_COUNT = 1000
-PER_PAGE = 100  # максимум отзывов за раз
-LANG = 'all'  # 'russian' если хочешь только русские отзывы
+PER_PAGE = 100
+LANG = 'all'
 
 reviews = []
 cursor = '*'
@@ -25,7 +25,7 @@ while collected < REVIEW_COUNT:
     data = response.json()
 
     if 'reviews' not in data or not data['reviews']:
-        print("Больше отзывов нет.")
+        print("No more reviews")
         break
 
     for review in data['reviews']:
@@ -43,10 +43,9 @@ while collected < REVIEW_COUNT:
     if not cursor:
         break
 
-    print(f"Собрано: {collected}/{REVIEW_COUNT}")
+    print(f"Collected: {collected}/{REVIEW_COUNT}")
     time.sleep(0.3)
 
-# Сохраняем в CSV
 df = pd.DataFrame(reviews)
 df.to_csv('steam_reviews_1000.csv', index=False, encoding='utf-8-sig')
-print(f"✅ Готово! Сохранено {len(df)} отзывов в steam_reviews_1000.csv")
+print(f"Saved  {len(df)} in steam_reviews_1000.csv")
